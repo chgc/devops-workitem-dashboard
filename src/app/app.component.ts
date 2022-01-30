@@ -38,11 +38,11 @@ export class AppComponent {
       .get(url, { headers })
       .pipe(
         map((x: any) => ({
-          id: x.workItems.map((m: any) => m.id) as string[],
+          workItemIds: x.workItems.map((m: any) => m.id) as string[],
           fields: x.columns.map((m: any) => m.referenceName) as string[],
         })),
-        mergeMap(({ id, fields }) =>
-          from(id).pipe(
+        mergeMap(({ workItemIds, fields }) =>
+          from(workItemIds).pipe(
             bufferCount(200),
             mergeMap((ids) =>
               this.http.post(
